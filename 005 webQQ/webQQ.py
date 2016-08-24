@@ -23,10 +23,9 @@ headers = {
 }
 #登录成功后的跳转地址
 redirect_url = ''
-QRImgPath = os.path.split(os.path.realpath(__file__))[0] + os.sep + 'webQQqr.jpg'
+QRIMGPATH = os.path.split(os.path.realpath(__file__))[0] + os.sep + 'webQQqr.png'
 
 def showQRImage():
-    global QRImgPath
     url = 'https://ssl.ptlogin2.qq.com/ptqrshow'
     params = {
         'appid' : 501004106,
@@ -39,16 +38,16 @@ def showQRImage():
     }
     reponse = session.get(url, params=params, headers=headers)
     # print(type(reponse))  >>> <class 'requests.models.Response'>
-    with open(QRImgPath, 'wb') as f :
+    with open(QRIMGPATH, 'wb') as f :
         f.write(reponse.content)
         f.close()
 
     if sys.platform.find('darwin') >= 0:
-        subprocess.call(['open', QRImgPath])
+        subprocess.call(['open', QRIMGPATH])
     elif sys.platform.find('linux') >= 0:
-        subprocess.call(['xdg-open', QRImgPath])
+        subprocess.call(['xdg-open', QRIMGPATH])
     else:
-        os.startfile(QRImgPath)
+        os.startfile(QRIMGPATH)
 
     print('请使用手机QQ扫描二维码以登录')
 
@@ -111,7 +110,7 @@ def main():
         #print(code)
         if code == '0' :
             break
-    os.remove(QRImgPath)
+    os.remove(QRIMGPATH)
     #至此已经登录成功
 
     #https://ssl.ptlogin2.qq.com/ptqrshow?appid=501004106&e=0&l=M&s=5&d=72&v=4&t=0.42412856286097556
